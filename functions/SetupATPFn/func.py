@@ -42,10 +42,10 @@ def dbaccess(data):
         connection2 = cx_Oracle.connect(atp_user, atp_password, atp_alias)
         cursor2 = connection2.cursor()
         
-        rs = cursor2.execute('''create table iot_data (iot_data_id number, iot_data1 varchar2(1000), CONSTRAINT iot_data_pk PRIMARY KEY (iot_data_id))''')
-        rs = cursor2.execute('''insert into iot_data values (1,'1234567890')''')
-        rs = cursor2.execute('''insert into iot_data values (2,'2345678901')''')
-        rs = cursor2.execute('''insert into iot_data values (3,'3456789012')''')
+        rs = cursor2.execute('''create table iot_data (iot_data_id number, iot_key varchar2(1000), iot_data varchar2(1000), CONSTRAINT iot_data_pk PRIMARY KEY (iot_data_id))''')
+        rs = cursor2.execute('''insert into iot_data values (1,'machine1','1234567890')''')
+        rs = cursor2.execute('''insert into iot_data values (2,'machine1','2345678901')''')
+        rs = cursor2.execute('''insert into iot_data values (3,'machine2','3456789012')''')
         rs = cursor2.execute('COMMIT')
 
         rs = cursor2.execute("create sequence iot_data_seq start with 3 increment by 1 nocache nocycle")

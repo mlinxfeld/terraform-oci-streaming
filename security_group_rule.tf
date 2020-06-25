@@ -26,3 +26,66 @@ resource "oci_core_network_security_group_security_rule" "FoggyKitchenATPSecurit
     }
 }
 
+# Rules related to FoggyKitchenWebSecurityGroup
+
+# EGRESS
+
+resource "oci_core_network_security_group_security_rule" "FoggyKitchenWebSecurityEgressATPGroupRule" {
+    network_security_group_id = oci_core_network_security_group.FoggyKitchenWebSecurityGroup.id
+    direction = "EGRESS"
+    protocol = "6"
+    destination = oci_core_network_security_group.FoggyKitchenATPSecurityGroup.id 
+    destination_type = "NETWORK_SECURITY_GROUP"
+}
+
+resource "oci_core_network_security_group_security_rule" "FoggyKitchenWebSecurityEgressGroupRule" {
+    network_security_group_id = oci_core_network_security_group.FoggyKitchenWebSecurityGroup.id
+    direction = "EGRESS"
+    protocol = "6"
+    destination = "0.0.0.0/0"
+    destination_type = "CIDR_BLOCK"
+}
+
+# INGRESS
+
+resource "oci_core_network_security_group_security_rule" "FoggyKitchenWebSecurityIngressGroupRules" {
+    network_security_group_id = oci_core_network_security_group.FoggyKitchenWebSecurityGroup.id
+    direction = "INGRESS"
+    protocol = "6"
+    source = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    tcp_options {
+        destination_port_range {
+            max = 80
+            min = 80
+        }
+    }
+}
+
+# Rules related to FoggyKitchenSSHSecurityGroup
+
+# EGRESS
+
+resource "oci_core_network_security_group_security_rule" "FoggyKitchenSSHSecurityEgressGroupRule" {
+    network_security_group_id = oci_core_network_security_group.FoggyKitchenSSHSecurityGroup.id
+    direction = "EGRESS"
+    protocol = "6"
+    destination = "0.0.0.0/0"
+    destination_type = "CIDR_BLOCK"
+}
+
+# INGRESS
+
+resource "oci_core_network_security_group_security_rule" "FoggyKitchenSSHSecurityIngressGroupRules" {
+    network_security_group_id = oci_core_network_security_group.FoggyKitchenSSHSecurityGroup.id
+    direction = "INGRESS"
+    protocol = "6"
+    source = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    tcp_options {
+        destination_port_range {
+            max = 22
+            min = 22
+        }
+    }
+}

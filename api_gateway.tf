@@ -1,3 +1,4 @@
+
 resource "oci_apigateway_gateway" "FoggyKitchenAPIGateway" {
   compartment_id = oci_identity_compartment.FoggyKitchenCompartment.id
   endpoint_type  = "PUBLIC"
@@ -16,9 +17,9 @@ resource "oci_apigateway_deployment" "FoggyKitchenAPIGatewayDeployment" {
     routes {
       backend {
           type        = "ORACLE_FUNCTIONS_BACKEND"
-          function_id = oci_functions_function.FoggyKitchenUpdateFrontendFn.id
+          function_id = oci_functions_function.FoggyKitchenFrontendFn.id
       }
-      methods = ["POST"]
+      methods = ["POST","GET"]
       path    = "/frontend"
     }
   }

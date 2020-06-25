@@ -1,3 +1,4 @@
+
 resource "oci_database_autonomous_database" "FoggyKitchenATPdatabase" {
   admin_password           = var.atp_password
   compartment_id           = oci_identity_compartment.FoggyKitchenCompartment.id
@@ -17,4 +18,3 @@ data "oci_database_autonomous_databases" "FoggyKitchenATPdatabases" {
   compartment_id = oci_identity_compartment.FoggyKitchenCompartment.id
   display_name = var.FoggyKitchen_ATP_database_display_name
 }
-
