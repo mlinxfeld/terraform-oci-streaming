@@ -148,7 +148,7 @@ export TF_VAR_ocir_namespace="foggykitchen"
 export TF_VAR_ocir_docker_repository="fra.ocir.io"
 export TF_VAR_ocir_user_password="HsX]Ea(...):z4dgj2"
 
-[opc@terraform-server terraform-microservice]$ source setup_oci_tf_vars.sh
+[opc@terraform-server terraform-streaming]$ source setup_oci_tf_vars.sh
 ```
 
 ### STEP 4.
@@ -300,7 +300,7 @@ After page refresh you should discover that ATP IoT table has been updated with 
 After testing the environment you can remove the whole OCI infra. You should just run *terraform destroy* (-auto-approve option will disable interactive mode and operation will be executed without additional confirmation):
 
 ```
-[opc@terraform-server terraform-oci-microservice]$ terraform destroy -auto-approve
+[opc@terraform-server terraform-oci-streaming]$ terraform destroy -auto-approve
 random_string.wallet_password: Refreshing state... [id=&Fj<5i-nCY9#a_YF]
 data.oci_core_images.OSImageLocal: Refreshing state... [id=2020-09-07 13:52:34.955803 +0000 UTC]
 data.oci_identity_availability_domains.ADs: Refreshing state... [id=2020-09-07 13:52:35.000553 +0000 UTC]
