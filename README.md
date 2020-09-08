@@ -218,22 +218,22 @@ Terraform will perform the following actions:
 
 (...)
 
-Plan: 47 to add, 0 to change, 0 to destroy.
+  # random_string.wallet_password will be created
+  + resource "random_string" "wallet_password" {
+      + id          = (known after apply)
+      + length      = 16
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
 
-Changes to Outputs:
-  + FoggyKitchenAPIGatewayDeployment_EndPoint = [
-      + (known after apply),
-    ]
-  + FoggyKitchenWebserver1_PublicIP           = [
-      + (known after apply),
-    ]
-
-Do you want to perform these actions?
-  Terraform will perform the actions described above.
-  Only 'yes' will be accepted to approve.
-
-  Enter a value: yes
-
+Plan: 50 to add, 0 to change, 0 to destroy.
 
 (...)
 
@@ -312,5 +312,5 @@ oci_identity_policy.FoggyKitchenFunctionsServiceReposAccessPolicy: Refreshing st
 oci_identity_compartment.FoggyKitchenCompartment: Destroying... [id=ocid1.compartment.oc1..aaaaaaaayxvhhjidfxsq35muvshgxv62ac2mn6mi2yo2xqzsq53jgkuozfwq]
 oci_identity_compartment.FoggyKitchenCompartment: Destruction complete after 0s
 
-Destroy complete! Resources: 45 destroyed.
+Destroy complete! Resources: 50 destroyed.
 ```
