@@ -263,7 +263,7 @@ Apply complete! Resources: 47 added, 0 changed, 0 destroyed.
 Outputs:
 
 FoggyKitchen_Flask_Webserver1_URL = [
-  "http://192.213.114.76/",
+  "http://129.213.114.76/",
 ]
 FoggyKitchen_Upload2StreamFn_POST_EndPoint_URL = [
   "https://kminml4nndeebhw43nb425vlrq.apigateway.us-ashburn-1.oci.customer-oci.com/v1/upload2stream",
