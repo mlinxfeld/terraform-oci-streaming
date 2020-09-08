@@ -297,7 +297,7 @@ After page refresh you should discover that ATP IoT table has been updated with 
 
 
 ### STEP 7.
-After testing the environment you can remove the whole OCI infra. You should just run *terraform destroy* (type **yes** for confirmation of the destroy phase):
+After testing the environment you can remove the whole OCI infra. You should just run *terraform destroy* (-auto-approve option will disable interactive mode and operation will be executed without additional confirmation):
 
 ```
 [opc@terraform-server terraform-oci-microservice]$ terraform destroy -auto-approve
