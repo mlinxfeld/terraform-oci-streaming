@@ -17,11 +17,22 @@ resource "oci_apigateway_deployment" "FoggyKitchenAPIGatewayDeployment" {
     routes {
       backend {
           type        = "ORACLE_FUNCTIONS_BACKEND"
-          function_id = oci_functions_function.FoggyKitchenFrontendFn.id
+          function_id = oci_functions_function.FoggyKitchenUpload2StreamFn.id
       }
-      methods = ["POST","GET"]
-      path    = "/frontend"
+      methods = ["POST"]
+      path    = "/upload2stream"
     }
+    
+    routes {
+      backend {
+          type        = "ORACLE_FUNCTIONS_BACKEND"
+          function_id = oci_functions_function.FoggyKitchenStream2ATPFn.id
+      }
+      methods = ["GET"]
+      path    = "/stream2atp"
+    }
+
+
   }
 }
 
@@ -29,6 +40,3 @@ data "oci_apigateway_deployment" "FoggyKitchenAPIGatewayDeployment" {
     deployment_id = oci_apigateway_deployment.FoggyKitchenAPIGatewayDeployment.id
 }
 
-output "FoggyKitchenAPIGatewayDeployment_EndPoint" {
-  value = [data.oci_apigateway_deployment.FoggyKitchenAPIGatewayDeployment.endpoint]
-}

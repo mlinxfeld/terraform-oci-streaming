@@ -20,7 +20,8 @@ resource "null_resource" "FoggyKitchenWebserver1_ConfigMgmt" {
       "sudo -u root yum install -y python36",
       "sudo -u root pip3 install cx_Oracle",
       "sudo -u root pip3 install flask",
-      "sudo -u root /tmp/templates",
+      "sudo -u root mkdir /tmp/templates/",
+      "sudo -u root chown opc /tmp/templates/",
 
       "echo '== 3. Disabling firewall and starting HTTPD service'",
     "sudo -u root service firewalld stop"]
@@ -64,7 +65,7 @@ resource "null_resource" "FoggyKitchenWebserver1_ConfigMgmt" {
       agent       = false
       timeout     = "10m"
     }
-    source      = "flask_atp.py"
+    source      = "flask/flask_atp.py"
     destination = "/tmp/flask_atp.py"
   }
 
@@ -78,22 +79,8 @@ resource "null_resource" "FoggyKitchenWebserver1_ConfigMgmt" {
       agent       = false
       timeout     = "10m"
     }
-    source      = "index.html"
+    source      = "flask/templates/index.html"
     destination = "/tmp/templates/index.html"
-  }
-
-  provisioner "file" {
-    connection {
-      type        = "ssh"
-      user        = "opc"
-      host        = data.oci_core_vnic.FoggyKitchenWebserver1_VNIC1.public_ip_address
-      private_key = file(var.private_key_oci)
-      script_path = "/home/opc/myssh.sh"
-      agent       = false
-      timeout     = "10m"
-    }
-    source      = "flask_atp.sh"
-    destination = "/tmp/flask_atp.sh"
   }
 
   provisioner "remote-exec" {
@@ -116,7 +103,7 @@ resource "null_resource" "FoggyKitchenWebserver1_ConfigMgmt" {
 }
 
 resource "null_resource" "FoggyKitchenWebserver1_Flask_WebServer_and_access_ATP" {
-  depends_on = [null_resource.FoggyKitchenWebserver1_ConfigMgmt]
+  depends_on = [null_resource.FoggyKitchenWebserver1_ConfigMgmt,oci_apigateway_deployment.FoggyKitchenAPIGatewayDeployment]
 
   provisioner "remote-exec" {
     connection {
@@ -130,11 +117,21 @@ resource "null_resource" "FoggyKitchenWebserver1_Flask_WebServer_and_access_ATP"
     }
     inline = ["echo '== 6. Run Flask with ATP access'",
       "sudo -u root python3 --version",
+      "sudo -u root rm -rf /tmp/flask_atp.sh",
+      "sudo -u root touch /tmp/flask_atp.sh",
+      "sudo -u root touch /tmp/flask_atp.cfg",
       "sudo -u root chmod +x /tmp/flask_atp.sh",
+      "sudo /bin/su -c \"echo '#!/bin/bash' >> /tmp/flask_atp.sh\"",
+      "sudo /bin/su -c \"echo 'export LD_LIBRARY_PATH=/usr/lib/oracle/18.3/client64/lib' >> /tmp/flask_atp.sh\"",
+      "sudo -u root sed -i 's/atp_user/${var.atp_user}/g' /tmp/flask_atp.py",
       "sudo -u root sed -i 's/atp_password/${var.atp_password}/g' /tmp/flask_atp.py",
-      "sudo -u root nohup /tmp/flask_atp.sh > /tmp/flask_atp.log &",
+      "sudo -u root sed -i 's/atp_alias/${var.FoggyKitchen_ATP_database_db_name}_medium/g' /tmp/flask_atp.py",
+      "sudo -u root sed -i 's#apigw_endpoint_URL#${data.oci_apigateway_deployment.FoggyKitchenAPIGatewayDeployment.endpoint}#g' /tmp/flask_atp.py",
+      "sudo /bin/su -c \"echo 'python3 /tmp/flask_atp.py > /tmp/flask_atp.log ' >> /tmp/flask_atp.sh\"",
+      "sudo -u root ln -s /usr/lib/oracle/18.3/client64/lib/libclntsh.so.18.1 /usr/lib/oracle/18.3/client64/lib/libclntsh.so",
+      "sudo -u root nohup /tmp/flask_atp.sh &",
       "sleep 5",
-    "sudo -u root ps -ef | grep flask"]
+      "sudo -u root ps -ef | grep flask"]
   }
 
 }

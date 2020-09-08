@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IoT Data from the Machines</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script>
+        function stream2atp() {
+            $.get( "{{ apigw_endpoint_url }}/stream2atp", function( data, status ) {
+                 alert("Data: " + data + "\nStatus: " + status);
+            });
+        }
+    </script>
+  </head>
+  <body>
+    <h1> Here is set of data from IoT_DATA table in ATP:</h2>
+    <br>
+    <br>
+    <p> {{ json_output }} </p>
+
+    <p>Consume messages from OCI Stream and upload to ATP instance via OCI Functions.</p>
+    
+    <button onclick="stream2atp()">Stream2ATPFn</button>
+    
+  </body>
+</html>

@@ -8,15 +8,18 @@ app = Flask(__name__)
 
 @app.route('/')
 def oracleatpcheck():
+ 
      os.environ['TNS_ADMIN'] = '/usr/lib/oracle/18.3/client64/lib/network/admin'
-     connection = cx_Oracle.connect('fkuser', 'atp_password', 'fkatpdb5_medium')
+     connection = cx_Oracle.connect("atp_user", "atp_password", "atp_alias")
      cursor = connection.cursor()
-     rs = cursor.execute("select * from iot_data order by iot_data_id")
+     rs = cursor.execute("select id, iot_key, iot_data from iot_data order by id")
      rows = rs.fetchall()
-     json_output = json.dumps(rows)
+     json_output = json.dumps(rows) 
+
      cursor.close()
      connection.close()  
-     return render_template('index.html', json_output=json_output)
+
+     return render_template('index.html', json_output=json_output, apigw_endpoint_url="apigw_endpoint_URL")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80, debug=True)

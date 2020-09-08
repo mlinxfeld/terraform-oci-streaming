@@ -27,6 +27,3 @@ data "oci_core_vnic" "FoggyKitchenWebserver1_VNIC1" {
   vnic_id = data.oci_core_vnic_attachments.FoggyKitchenWebserver1_VNIC1_attach.vnic_attachments.0.vnic_id
 }
 
-output "FoggyKitchenWebserver1_PublicIP" {
-  value = [data.oci_core_vnic.FoggyKitchenWebserver1_VNIC1.public_ip_address]
-}
