@@ -7,11 +7,11 @@ In this repository I have documented my hands-on experience with Terrafrom for t
 ## Topology Diagram 
 
 With the usage of this example HCL code you can build topology documented by diagram below. This topology is extremly simplified for education purposes and rather cannot be used for the production implementations. In this configuration 3 functions are deployed:
-1. SetupATPFn - for the purpose of creating database located iot_data table under umbrella of appuser, 
-2. Upload2StreamFn - for the purpose of uploading messages to the streaming service, 
-3. Stream2ATPFn - for the purpose of on demand messages transfers from the streaming service to ATP instance.
+1. SetupATPFn - for the purpose of creating IoT_DATA table created within OCI ATP instance, 
+2. Upload2StreamFn - for the purpose of uploading messages to the OCI Streaming Service, 
+3. Stream2ATPFn - for the purpose of on demand message transfers from the OCI Streaming Service to OCI ATP instance.
 
-Function Upload2StreamFn will exposed to the public Internet via OCI API Gateway. This automated deployment will also include small compute instance with Flask-based webserver. Current content of ATP's iot_data table will be exposed in a form of the webpage presented from Flask. Additionally this Flask application will have capability to run refresh transfers from the Streaming Service to ATP instance (button for invoking Stream2ATPFn function).
+Functions Upload2StreamFn and Stream2ATPFin will exposed to the public Internet via OCI API Gateway (accesible via POST and GET methods). This automated deployment will also include small compute instance with Flask-based webserver. Current content of ATP's IoT_DATA table will be exposed in a form of the webpage presented from Flask. Additionally this Flask application will have capability to run refresh transfers from OCI Streaming Service to ATP instance (button for invoking Stream2ATPFn function).
 
 ![](images/terraform-oci-streaming.png)
 
