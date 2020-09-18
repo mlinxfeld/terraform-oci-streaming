@@ -106,6 +106,8 @@ If you are not using OCI Cloud Shell you need to install Docker Engine on your t
 
 [root@terraform-server terraform-oci-streaming]$ usermod -a -G docker opc
 
+[root@terraform-server terraform-oci-streaming]$ chmod 666 /var/run/docker.sock
+
 [root@terraform-server terraform-oci-streaming]$ exit
 
 [opc@terraform-server terraform-oci-streaming]$ exit
